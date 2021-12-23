@@ -79,5 +79,3 @@ sql_object = SQLClass(mysql_db=mysql_db,
                       mysql_username=mysql_username,
                       mysql_password=mysql_password
                       )
-print(sql_object)
-print(sql_object.select_all_query(query='select * from table1 where int_test = 4321432;'))
