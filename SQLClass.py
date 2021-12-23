@@ -77,10 +77,3 @@ class SQLClass:
             print(f"Error updating: {err}")
         cursor.close()
         return cursor.rowcount
-
-
-sql_object = SQLClass(mysql_db=mysql_db,
-                      mysql_host=mysql_host,
-                      mysql_username=mysql_username,
-                      mysql_password=mysql_password
-                      )
