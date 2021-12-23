@@ -28,7 +28,7 @@ class SQLClass:
             cursor.execute(query)
             results = cursor.fetchall()
         except Error as err:
-            print(f"Error selecting many: '{err}'")
+            print(f"Error selecting many: {err}")
         cursor.close()
         return results
 
@@ -39,7 +39,7 @@ class SQLClass:
             cursor.execute(query)
             results = cursor.fetchone()
         except Error as err:
-            print(f"Error selecting one: '{err}'")
+            print(f"Error selecting one: {err}")
         cursor.close()
         return results
 
