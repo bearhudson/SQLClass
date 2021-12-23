@@ -21,51 +21,55 @@ class SQLClass:
     def __str__(self):
         return f"{self.mysql_db} {self.mysql_host} {self.mysql_username}"
 
-    def select_all_query(self, query):
+    def select_all_query(self, query) -> list:
         cursor = self.db_connection.cursor()
         try:
             cursor.execute(query)
             results = cursor.fetchall()
         except Error as err:
-            print(f"Error: '{err}'")
+            print(f"Error selecting many: '{err}'")
         cursor.close()
         return results
 
-    def select_one_query(self, query):
-        cursor = self.db_connection.cursor()
+    def select_one_query(self, query) -> list:
+        cursor = self.db_connection.cursor(buffered=True)
         try:
             cursor.execute(query)
             results = cursor.fetchone()
         except Error as err:
-            print(f"Error: '{err}'")
+            print(f"Error selecting one: '{err}'")
         cursor.close()
         return results
 
-    def insert_query(self, query):
+    def insert_query(self, query) -> int:
         cursor = self.db_connection.cursor()
         try:
             cursor.execute(query)
             self.db_connection.commit()
+            results = cursor.rowcount
         except Error as err:
-            print(f"Error: {err}")
+            print(f"Error inserting: {err}")
         cursor.close()
+        return results
 
-    def delete_query(self, query):
+    def delete_query(self, query) -> int:
         cursor = self.db_connection.cursor()
         try:
             cursor.execute(query)
             self.db_connection.commit()
+            results = cursor.rowcount
         except Error as err:
-            print(f"Error: {err}")
+            print(f"Error deleting: {err}")
         cursor.close()
+        return results
 
-    def update_query(self, query):
+    def update_query(self, query) -> int:
         cursor = self.db_connection.cursor()
         try:
             cursor.execute(query)
             self.db_connection.commit()
         except Error as err:
-            print(f"Error: {err}")
+            print(f"Error updating: {err}")
         cursor.close()
         return cursor.rowcount
 
@@ -76,4 +80,4 @@ sql_object = SQLClass(mysql_db=mysql_db,
                       mysql_password=mysql_password
                       )
 print(sql_object)
-print(sql_object.select_all_query(query='SELECT * from table1;'))
+print(sql_object.select_all_query(query='select * from table1 where int_test = 4321432;'))
