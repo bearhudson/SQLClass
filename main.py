@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 from src.environs import *
+import mysql.connector
+from mysql.connector import Error
 
 
 @dataclass
@@ -7,16 +9,27 @@ class SQLClass:
     mysql_db: str
     mysql_host: str
     mysql_username: str
-    mysql_pass: str
+    mysql_password: str
+    db_connection = mysql.connector.connect
 
-    def return_test(self):
-        return self.mysql_db, self.mysql_username, self.mysql_host
+    def connect(self):
+        try:
+            self.db_connection(
+                database=self.mysql_db,
+                host=self.mysql_host,
+                user=self.mysql_username,
+                password=self.mysql_password
+            )
+        except Error as error:
+            print(f"Error connecting: {error}")
 
     def __str__(self):
-        return_string = f"{mysql_host}, {mysql_db}"
-        return return_string
+        return f"{self.mysql_db} {self.mysql_host} {self.mysql_username}"
 
 
-sql = SQLClass(mysql_db=mysql_db, mysql_host=mysql_host, mysql_username=mysql_username, mysql_pass=mysql_pass)
-print(sql.return_test())
-print(sql)
+sql_object = SQLClass(mysql_db=mysql_db,
+                      mysql_host=mysql_host,
+                      mysql_username=mysql_username,
+                      mysql_password=mysql_password)
+print(sql_object)
+print(sql_object.connect())
